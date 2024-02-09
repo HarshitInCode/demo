@@ -1,0 +1,82 @@
+<app-header></app-header>
+
+<div class="create-post-btn-container">
+  <button type="button" class="btn btn-primary create-post-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+    data-bs-whatever="@mdo">Create Post</button>
+</div>
+
+<div class="container-fluid gedf-wrapper">
+  <div class="row aligment">
+    <div class="col-md-6 gedf-main">
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">{{titlEName}}</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="postForm" (ngSubmit)="submitForm()">
+                <div class="mb-3">
+                  <label for="title" class="col-form-label form-label">Title:</label>
+                  <input type="text" class="form-control" id="title" formControlName="title">
+                </div>
+                <div class="mb-3">
+                  <label for="body" class="col-form-label form-label">Body:</label>
+                  <textarea class="form-control" id="body" formControlName="body"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="tags" class="col-form-label form-label">Tags:</label>
+                  <input type="text" class="form-control" id="tags" formControlName="tags" placeholder="Enter tags">
+                </div>
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="active" formControlName="active">
+                  <label class="form-check-label" for="active">Active</label>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">{{buttonName}}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="posts.length === 0; else postsList" class="no-posts-message">
+        <p class="center-text">No posts available. Create a post to get started!</p>
+      </div>
+
+      <ng-template #postsList>
+        <div *ngFor="let post of posts" class="card gedf-card mt-4">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="ml-2">
+                  <div class="h5 m-0 user-data">{{userData}}</div>
+                  <div class="h7 text-muted post-title">{{post.title}}</div>
+                </div>
+              </div>
+              <div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text post-body">
+              {{post.body}}
+            </p>
+            <div>
+              <span *ngFor="let item of post.tags" class="badge badge-primary tag-badge">{{item}}</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a (click)="editPost(post.id)" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
+              class="card-link edit-link"><i class="fa fa-edit"></i> Edit</a>
+            <a (click)="deletePost(post.id)" class="card-link delete-link"><i class="fa fa-trash"></i> Delete</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
